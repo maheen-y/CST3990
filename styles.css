@@ -1,0 +1,20 @@
+/* Body style*/
+body{
+    font-family: 'Times New Roman', Times, serif;
+    background-color: whitesmoke
+}
+
+/*Heading style*/
+h1 {
+font-family: 'Times New Roman', Times, serif;
+color: red;
+text-align: center;
+}
+
+/*Navigation menu*/
+.navmenu a {
+border: 1px solid red;
+padding: 5px 10px;
+margin: 8px;
+text-decoration: none;
+}
