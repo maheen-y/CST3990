@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computing Quiz</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="quiz.js"></script>
+    <script defer src="quiz.js"></script>
     
 </head>
 
@@ -25,6 +25,7 @@
     </nav>
 
     <div class="quiz-box">
+        <img id="question-image" style="display:none; max-width:200px;">
         <div class="progress-container">
             <div id="progress-bar"></div>
         </div>
@@ -35,7 +36,7 @@
 
         <button id="previousQ">Previous</button>
         <button id="nextQ">Next</button>
-        <button id="SubmitQuiz">Submit</button>
+        <button id="submitQuiz">Submit</button>
     </div>
 
 </body>

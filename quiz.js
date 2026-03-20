@@ -4,16 +4,16 @@ const questions = [
         question: "You find a surprise package containing 4 gadgets, what do you do?", 
         options:[
             {choice:"Open each of them, one by one and find out how they work", skill: "logical_thinking"},
-            {choice: "Read the user documentation to explore functionality", skill: " risk_awareness"},
-            {choice:"Look for similarities or differences between them", skill: " data_analysis"},
-            {choice: "Ask for suggestions from friends", skill: " teamwork"},
-            {choice: "Not interested in gadgets"}
+            {choice: "Read the user documentation to explore functionality", skill: "risk_awareness"},
+            {choice:"Look for similarities or differences between them", skill: "data_analysis"},
+            {choice: "Ask for suggestions from friends", skill: "teamwork"},
+            {choice: "Not interested in gadgets", skill: "none"}
         ]  
     }, 
     {
         question: "When communicating thoughts/ideas, do you:", 
         options:[
-            {choice:"Focus on providing systematic instructions", skill: " logical_thinking"},
+            {choice:"Focus on providing systematic instructions", skill: "logical_thinking"},
             {choice: "Brainstorm risks and preventative measures", skill: "risk_awareness"},
             {choice:"Create visualisations such as graphs/charts", skill: "data_analysis"},
             {choice: "Plan towards the bigger picture", skill: "teamwork"},
@@ -97,6 +97,7 @@ const questions = [
 
 // Variable to track question progress
 let currentQuestion = 0;
+let correctAnswers = 0; 
 
 // Variable to store user response
 let userResponse = new Array(questions.length); 
@@ -104,7 +105,7 @@ let scores = {
     logical_thinking:0, 
     risk_awareness:0,
     data_analysis:0,
-    teamwork:0,
+    teamwork:0
 }; 
 
 const quizQuestion = document.getElementById("question");
@@ -133,34 +134,77 @@ function displayQuestion(){
 
     // Displays the options for each question
     q.options.forEach((option, index)=>{
-        let selected = ""; 
+        let selected = (userResponse[currentQuestion] == index) ? 
+        "checked" : "";
+        
 
-        if (userResponse[currentQuestion] === option.type){
-            selected = "selected";
-        }
          // Creates radio buttons
         let optionLabel = document.createElement("label");
         optionLabel.innerHTML = `<input type="radio" name="answer" 
-        value="${option.type}" ${selected} > ${option.text}`; 
+        value="${index}" ${selected} > ${option.choice}`; 
 
-        quizOptions.appendChild(label);
+        quizOptions.appendChild(optionLabel);
     });
-    refreshProgress();
+    quizProgressBar();
 }
 
+// Display next question button
 document.getElementById("nextQ").onclick = function(){
-    let chosen = document.querySelector("input[name='answer']:selected");
+    let chosen = document.querySelector("input[name='answer']:checked");
     if(!chosen) {
         console.log("Please choose an option");
         return;
     }
-    userResponse[currentQuestion] = chosen.value;
+    let selectedIndex = chosen.value;
+    let selectedOption = questions[currentQuestion].options[selectedIndex];
+
+    // Save the student's response
+    userResponse[currentQuestion] = selectedIndex;
+
+    // Skills score - based on all questions
+    if(selectedOption.skill){
+        scores[selectedOption.skill]++;
+    }
+
+    // Scores for correct answers - based on certain questions
+    if(selectedOption.correct === true){
+        correctAnswers++;
+    }
     currentQuestion++;
 
     if(currentQuestion < questions.length){
         displayQuestion();
     }
 };
+
+// Display previous question button 
+document.getElementById("previousQ").onclick = function(){
+    if (currentQuestion > 0){
+        currentQuestion--;
+        displayQuestion();
+    }
+};
+
+// Display progress bar 
+function quizProgressBar(){
+    let progress = (currentQuestion / questions.length) * 100;
+    document.getElementById("progress-bar").style.width = 
+    progress + "%";
+}
+
+// Quiz submission
+ document.getElementById("submitQuiz").onclick = function(){
+    scores = 
+    logical_thinking = 0;
+    risk_awareness = 0;
+    data_analysis = 0;
+    teamwork = 0
+ }; 
+
+ displayQuestion();
+
+
+
 
 
 
