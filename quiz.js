@@ -75,7 +75,7 @@ const questions = [
         ]  
     },
     {
-        question: "9.	Look at the graph above. In which month were the highest number of ice creams sold? ", 
+        question: "Look at the graph above. In which month were the highest number of ice creams sold? ", 
         image:"icecream_graph.png", 
         options:[
             {choice:"May", skill: "data_analysis", correct:false},
