@@ -167,9 +167,9 @@ document.getElementById("nextQ").onclick = function(){
     }
 
     // Scores for correct answers - based on certain questions
-    if(selectedOption.correct === true){
-        correctAnswers++;
-    }
+    //if(selectedOption.correct === true){
+        //correctAnswers++;
+    // }
     currentQuestion++;
 
     if(currentQuestion < questions.length){
@@ -194,11 +194,39 @@ function quizProgressBar(){
 
 // Quiz submission
  document.getElementById("submitQuiz").onclick = function(){
-    scores = 
-    logical_thinking = 0;
-    risk_awareness = 0;
-    data_analysis = 0;
-    teamwork = 0
+
+    correctAnswers = 0;
+
+    let userScores = {
+        logical_thinking: 0,
+    risk_awareness: 0,
+    data_analysis: 0,
+    teamwork: 0
+    };
+
+    userResponse.forEach((selectedIndex, qIndex)=>{
+        if(selectedIndex !== undefined){
+            let skill = questions[qIndex].options[selectedIndex].skill;
+            if (skill && userScores[skill] !== undefined){
+                userScores[skill]++;
+            }
+            let isCorrect = questions[qIndex].options[selectedIndex].correct;
+            if (isCorrect){
+                correctAnswers++;
+            }
+        }
+    });
+
+    let finalResults = `Quiz Complete\n\nCorrect Answers:${correctAnswers} / ${questions.length}\n\nHere is a breakdown of your top skills:\n`;
+    for(let skill in userScores){
+      finalResults += `${skill.replace('_', ' ')}: ${userScores[skill]}\n`;
+    }
+    document.getElementById("quiz-results").innerText = finalResults;
+
+    const quizBox = document.querySelector('.quiz-box');
+    quizBox.querySelectorAll('#question, #options, #previousQ, #nextQ, #submitQuiz, #question-image, #quiz-progress, .progress-container')
+    .forEach(element => element.style.display = 'none');
+   
  }; 
 
  displayQuestion();

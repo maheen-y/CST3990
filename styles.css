@@ -1,17 +1,45 @@
+.header-box{
+    position: relative;
+    text-align:center;
+    margin-top: 0;
+    min-height: 100px;
+    padding-top:20px;
+}
+
+.MDXLogo {
+    position: absolute;
+    top:10px;
+    left:20px;
+    width: 170px;
+    object-fit: contain;
+}
+
+.Tech {
+    position:absolute;
+    top:10px;
+    right:20px;
+    width:170px;
+    object-fit: contain;
+}
+
 /* Body style*/
 body{
+    margin:0;
     font-family: 'Times New Roman', Times, serif;
     background-color: whitesmoke
 }
 
+
 /*Heading style*/
 h1 {
+text-align: center;
+margin-top: 10px;
 font-family: 'Times New Roman', Times, serif;
 color: red;
-text-align: center;
 }
 
-/*Navigation menu*/
+
+/*Navigation menu links*/
 .navmenu a {
 border: 1px solid red;
 padding: 5px 10px;
@@ -24,4 +52,19 @@ text-decoration: none;
     padding:8px;
     margin:4px;
     border:5px grey;
+}
+
+h2{
+    font-family: 'Times New Roman', Times, serif;
+    color: red;
+}
+
+p{
+    color:red;
+}
+
+#quiz-results {
+    margin: top 20px;
+    color:red;
+    white-space: pre-line;
 }
