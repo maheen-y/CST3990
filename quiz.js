@@ -112,6 +112,8 @@ const quizQuestion = document.getElementById("question");
 const quizOptions = document.getElementById("options");
 const quizProgress = document.getElementById("quiz-progress");
 const quizImage = document.getElementById("question-image");
+const previousButton = document.getElementById("previousQ");
+const nextButton = document.getElementById("nextQ");
 
 // Function to display questions
 function displayQuestion(){
@@ -146,13 +148,14 @@ function displayQuestion(){
         quizOptions.appendChild(optionLabel);
     });
     quizProgressBar();
+    manageButtons();
 }
 
 // Display next question button
 document.getElementById("nextQ").onclick = function(){
     let chosen = document.querySelector("input[name='answer']:checked");
     if(!chosen) {
-        console.log("Please choose an option");
+        alert("Please choose an option");
         return;
     }
     let selectedIndex = chosen.value;
@@ -165,11 +168,6 @@ document.getElementById("nextQ").onclick = function(){
     if(selectedOption.skill){
         scores[selectedOption.skill]++;
     }
-
-    // Scores for correct answers - based on certain questions
-    //if(selectedOption.correct === true){
-        //correctAnswers++;
-    // }
     currentQuestion++;
 
     if(currentQuestion < questions.length){
@@ -192,10 +190,19 @@ function quizProgressBar(){
     progress + "%";
 }
 
+function manageButtons(){
+    // On the first Q disable previous button
+    previousButton.disabled = currentQuestion === 0;
+
+    // On the final Q, disable the next button
+    nextButton.disabled = currentQuestion === questions.length - 1; 
+}
+
 // Quiz submission
  document.getElementById("submitQuiz").onclick = function(){
 
     correctAnswers = 0;
+    let totalGradedQuestions = 0;
 
     let userScores = {
         logical_thinking: 0,
@@ -210,14 +217,23 @@ function quizProgressBar(){
             if (skill && userScores[skill] !== undefined){
                 userScores[skill]++;
             }
-            let isCorrect = questions[qIndex].options[selectedIndex].correct;
-            if (isCorrect){
+
+        let question = questions[qIndex];
+        let selectedOption = question.options[selectedIndex];
+
+        // Only knowledge questions have a score
+        if (selectedOption.correct !== undefined){
+            totalGradedQuestions++;
+
+            if (selectedOption.correct === true){
                 correctAnswers++;
             }
         }
+        }
     });
 
-    let finalResults = `Quiz Complete\n\nCorrect Answers:${correctAnswers} / ${questions.length}\n\nHere is a breakdown of your top skills:\n`;
+    // Results section
+    let finalResults = `Quiz Complete\n\nCorrect Answers:${correctAnswers} / ${totalGradedQuestions}\n\nHere is a breakdown of your top skills:\n`;
     for(let skill in userScores){
       finalResults += `${skill.replace('_', ' ')}: ${userScores[skill]}\n`;
     }
@@ -226,7 +242,6 @@ function quizProgressBar(){
     const quizBox = document.querySelector('.quiz-box');
     quizBox.querySelectorAll('#question, #options, #previousQ, #nextQ, #submitQuiz, #question-image, #quiz-progress, .progress-container')
     .forEach(element => element.style.display = 'none');
-   
  }; 
 
  displayQuestion();
